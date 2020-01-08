@@ -2,7 +2,7 @@
 
 autoload -Uz promptinit
 promptinit
-prompt adam1
+prompt adam1 256
 
 setopt histignorealldups sharehistory
 
