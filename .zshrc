@@ -23,7 +23,9 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
+if type "dircolors" > /dev/null 2>&1; then
+    eval "$(dircolors -b)"
+fi
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -49,16 +51,17 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey '^P' history-beginning-search-backward-end
 bindkey '^N' history-beginning-search-forward-end
 
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-    source /etc/profile.d/vte-2.91.sh
-fi
-
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias ls='ls --color'
-alias pbcopy='xsel -bi'
-alias pbpaste='xsel -bo'
+
+if [[ ${OSTYPE} == 'darwin'* ]]; then
+    alias ls="ls -FG"
+else
+    alias ls='ls -F --color'
+    alias pbcopy='xsel -bi'
+    alias pbpaste='xsel -bo'
+fi
 
 man() {
     env \
